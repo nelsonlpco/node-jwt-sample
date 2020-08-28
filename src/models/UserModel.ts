@@ -1,9 +1,12 @@
-// import bcrypt from 'bcrypt';
+import bcrypt from 'bcrypt';
 import { Document, model, Schema } from 'mongoose';
 
-interface UserSchema extends Document {
+export interface UserEntity {
   email: string;
   password: string;
+}
+
+interface UserSchema extends Document, UserEntity {
   isValidPassword: (password: string) => Promise<boolean>;
 }
 
@@ -26,9 +29,9 @@ userSchema.methods.isValidPassword = async function isValidPassword(password: st
 
 userSchema.pre<UserSchema>('save', async function onSaveHandler(next): Promise<void> {
   try {
-    // const salt = await bcrypt.genSalt(10);
-    // const hashedPassword = await bcrypt.hash(this.password, salt);
-    // this.password = hashedPassword;
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(this.password, salt);
+    this.password = hashedPassword;
   } catch (error) {
     next(error);
   }

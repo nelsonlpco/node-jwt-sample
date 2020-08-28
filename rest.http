@@ -1,8 +1,37 @@
+###protected route
+GET http://localhost:3000/api/teste
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1OTg2MTE3NDAsImV4cCI6MTU5ODYxNTM0MCwiYXVkIjoiNWY0ODgxMTk0NjljNzk0OTAwNzNiYTVjIiwiaXNzIjoibmVsc29uQGdtYWlsLmNvbSJ9.nKc_qyRWVqSR6gkQCw5hRd-zePjssePRCmd4B3HtYdw
+
 ###register
-POST http://localhost:3000/auth/register
+POST http://localhost:3000/api/auth/register
 Content-Type: application/json
 
 {
   "email": "nelson@gmail.com",
-  " password": "teste123"
+  "password": "teste123"
+}
+
+###login
+POST http://localhost:3000/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "nelson@gmail.com",
+  "password": "teste123"
+}
+
+###refresh login
+POST http://localhost:3000/api/auth/refresh
+Content-Type: application/json
+
+{
+  "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1OTg1ODgwNzQsImV4cCI6MTYzMDE0NTY3NCwiYXVkIjoiNWY0ODgxMTk0NjljNzk0OTAwNzNiYTVjIiwiaXNzIjoibmVsc29uQGdtYWlsLmNvbSJ9.YP8cNbTjxwIDmtb-LxOxt_uUin4Qz98FqaRPSkuxX3M"
+}
+
+###logout
+DELETE  http://localhost:3000/api/auth/logout
+Content-Type: application/json
+
+{
+  "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1OTg1ODgwNzQsImV4cCI6MTYzMDE0NTY3NCwiYXVkIjoiNWY0ODgxMTk0NjljNzk0OTAwNzNiYTVjIiwiaXNzIjoibmVsc29uQGdtYWlsLmNvbSJ9.YP8cNbTjxwIDmtb-LxOxt_uUin4Qz98FqaRPSkuxX3M"
 }

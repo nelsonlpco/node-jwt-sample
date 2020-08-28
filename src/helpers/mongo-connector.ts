@@ -2,10 +2,10 @@
 import environment from 'config/environment';
 import mongoose from 'mongoose';
 
-const mongodbConnect = async () => {
-  try{
+async function initializeMongodb() {
+  try {
     await mongoose.connect(environment.mongodbUri, {
-      dbName: 'teste',
+      dbName: environment.mongodbDatabaseName,
       user: environment.mongodbAdminUser,
       pass: environment.mongodbAdminPassword,
       useNewUrlParser: true,
@@ -13,8 +13,7 @@ const mongodbConnect = async () => {
       useCreateIndex: true,
       useFindAndModify: false,
     });
-
-    console.log('mongoo connected');
+    console.log('Mongodb is connected');
 
     mongoose.connection.on('connected', () => {
       console.log('Mongoose connected to db');
@@ -32,10 +31,9 @@ const mongodbConnect = async () => {
       await mongoose.connection.close();
       process.exit(-1);
     });
-
-  }catch(error){
-    console.log('mongodb connection error', error.message);
+  } catch (error) {
+    console.log(`Error on connect to mongodb: ${error.message}`);
   }
 }
 
-export default mongodbConnect;
+export default initializeMongodb;

@@ -1,15 +1,34 @@
-import mongodbConnect from 'driver/mongodb';
-import Server from './server';
+import environment from 'config/environment';
+import express from 'express';
+import initializeMongodb from 'helpers/mongo-connector';
+import 'helpers/redis-client';
+import createError from 'http-errors';
+import morgan from 'morgan';
+import router from 'routes';
 
-async function main(){
-  try{
-  await Server.init();
-  console.log('server running...')
-  await mongodbConnect();
-  }catch(error){
-    console.log('Error on initialize server', error.message)
-  }
-}
+initializeMongodb();
+const app = express();
 
-main().then(() => {
-}).catch((error) => {console.log(error)});
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(morgan('dev'));
+
+app.use('/api', router);
+
+app.use(async (req, res, next) => {
+  next(new createError.NotFound());
+});
+
+app.use((error: any, _: any, res: any, next: any) => {
+  res.status(error.status || 500);
+  res.send({
+    error: {
+      status: error.status || 500,
+      message: error.message,
+    },
+  });
+});
+
+app.listen(environment.serverPort, () => {
+  console.log(`Server is running on ${environment.serverPort}`);
+});

@@ -11,13 +11,9 @@ services:
     volumes:
       - .:/app
     environment:
-      SERVER_PORT: 3000
       MONGODB_URI: mongodb://mongo
-      MONGODB_ADMINUSERNAME: root
-      MONGODB_ADMINPASSWORD: '!@#MONGO'
-      ACCESSTOKEN_SECRETE: ''
-      REFRESHTOKEN_SECRETE: ''
-    command: yarn dev
+      REDIS_HOST: redis
+    command: yarn start
     depends_on:
       - mongo
       - redis
